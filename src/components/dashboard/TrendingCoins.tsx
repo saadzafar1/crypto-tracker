@@ -112,10 +112,10 @@ export const TrendingCoins: React.FC<TrendingCoinsProps> = ({ data, onCoinSelect
         {trendingCoins.map((coin, index) => (
           <div
             key={coin.id}
-            className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer group"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer group space-y-3 sm:space-y-0"
             onClick={() => handleCoinClick(coin)}
           >
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold">
                 {index + 1}
               </div>
@@ -123,29 +123,29 @@ export const TrendingCoins: React.FC<TrendingCoinsProps> = ({ data, onCoinSelect
               <img
                 src={coin.large || coin.image}
                 alt={coin.name}
-                className="h-10 w-10 rounded-full"
+                className="h-8 w-8 sm:h-10 sm:w-10 rounded-full flex-shrink-0"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = coin.thumb;
                 }}
               />
               
-              <div>
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center space-x-2">
-                  <h4 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h4 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-sm sm:text-base truncate">
                     {coin.name}
                   </h4>
-                  <span className="text-sm text-gray-500 dark:text-gray-400 uppercase">
+                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 uppercase flex-shrink-0">
                     {coin.symbol}
                   </span>
                 </div>
-                <div className="flex items-center space-x-2 mt-1">
+                <div className="flex items-center space-x-2 mt-1 flex-wrap">
                   <Badge variant="neutral" className="text-xs">
                     Rank #{coin.market_cap_rank}
                   </Badge>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-1 text-xs">
                     <Star className="h-3 w-3 text-yellow-500" />
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-gray-500 dark:text-gray-400">
                       Score: {coin.score}
                     </span>
                   </div>
@@ -153,30 +153,33 @@ export const TrendingCoins: React.FC<TrendingCoinsProps> = ({ data, onCoinSelect
               </div>
             </div>
 
-            <div className="text-right">
-              <div className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start sm:text-right space-x-2 sm:space-x-0">
+              <div className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                 {coin.current_price ? formatCurrency(coin.current_price) : (
-                  <span className="text-gray-500 dark:text-gray-400 text-sm">
+                  <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                     Price unavailable
                   </span>
                 )}
               </div>
-              {coin.price_change_percentage_24h !== undefined && coin.price_change_percentage_24h !== null && (
-                <Badge
-                  variant={coin.price_change_percentage_24h > 0 ? 'success' : 'error'}
-                  className="mt-1"
-                >
-                  {formatPercentage(coin.price_change_percentage_24h)}
-                </Badge>
-              )}
-              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                {coin.market_cap ? formatMarketCap(coin.market_cap) : (
-                  coin.current_price ? (
-                    <span className="text-xs">Trending #{coin.market_cap_rank}</span>
-                  ) : (
-                    <span className="text-xs">Market data unavailable</span>
-                  )
+              <div className="flex flex-col items-end space-y-1">
+                {coin.price_change_percentage_24h !== undefined && coin.price_change_percentage_24h !== null && (
+                  <Badge
+                    variant={coin.price_change_percentage_24h > 0 ? 'success' : 'error'}
+                    className="text-xs"
+                  >
+                    {formatPercentage(coin.price_change_percentage_24h)}
+                  </Badge>
                 )}
+                <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                  {coin.market_cap ? formatMarketCap(coin.market_cap) : (
+                    coin.current_price ? (
+                      <span>Trending #{coin.market_cap_rank}</span>
+                    ) : (
+                      <span>Market data unavailable</span>
+                    )
+                  )
+                  )}
+                </div>
               </div>
             </div>
           </div>
