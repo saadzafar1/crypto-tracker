@@ -177,7 +177,6 @@ export const TrendingCoins: React.FC<TrendingCoinsProps> = ({ data, onCoinSelect
                     ) : (
                       <span>Market data unavailable</span>
                     )
-                  )
                   )}
                 </div>
               </div>
